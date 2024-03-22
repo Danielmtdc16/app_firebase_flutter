@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
@@ -13,7 +14,7 @@ class LoginScreen extends StatelessWidget {
           color: Colors.white,
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 60),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 60),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -22,28 +23,46 @@ class LoginScreen extends StatelessWidget {
                     style: TextStyle(color: Colors.black54, fontSize: 40),
                   ),
                   const SizedBox(
-                    height: 100,
+                    height: 70,
                   ),
                   const Text(
                     "Login",
                     style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black54,
-                        fontSize: 25),
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black54,
+                      fontSize: 20,
+                    ),
                   ),
                   const SizedBox(
                     height: 30,
                   ),
                   TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: "Email or Phone number"),
+                    decoration: InputDecoration(
+                      hintText: "Email or Phone number",
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          width: 10,
+                          color: Colors.red,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
                     obscureText: true,
-                    decoration: const InputDecoration(hintText: "Password"),
+                    decoration: InputDecoration(
+                        hintText: "Password",
+                        border: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 10,
+                            color: Colors.red,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        suffixIcon: const Icon(Icons.visibility_off)),
                   ),
                   const SizedBox(
                     height: 10,
@@ -53,19 +72,32 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () {},
-                        child: const Text("Forget your Password?"),
+                        child: const Text(
+                          "Forget your Password?",
+                          style: TextStyle(
+                            color: Color(0xFF2D936E),
+                            fontWeight: FontWeight.w400
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(
                     height: 25,
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.blue),
+                  SizedBox(
+                    width: 250,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFF2D936E)),
+                      ),
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
                     ),
-                    child: const Text("Login"),
                   ),
                   const SizedBox(
                     height: 25,
@@ -97,6 +129,24 @@ class LoginScreen extends StatelessWidget {
                           mini: true,
                         ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Dont't have account?"
+                      ),
+                      SizedBox(width: 10,),
+                      Text(
+                        "Sign up",
+                        style: TextStyle(
+                          color: Color(0xFF2D936E)
+                        ),
+                      )
                     ],
                   )
                 ],
