@@ -1,7 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:app_firebase_flutter/services/auth_service.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+  RegisterScreen({super.key});
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  final AuthService _authService = AuthService();
+
+  void _showMessage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: const Text(
+            "Cadastro realizado com sucesso!",
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () =>
+                  Navigator.popUntil(context, (page) => page.isFirst),
+              child: const Text(
+                "Ok",
+                style: TextStyle(
+                  color: Color(0xFF2D936E),
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +73,7 @@ class RegisterScreen extends StatelessWidget {
                   height: 30,
                 ),
                 TextFormField(
+                  controller: _nameController,
                   decoration: InputDecoration(
                     hintText: "Name",
                     border: OutlineInputBorder(
@@ -44,12 +83,17 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(30),
                     ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 16,
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     hintText: "Email",
                     border: OutlineInputBorder(
@@ -59,20 +103,9 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(30),
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        width: 10,
-                        color: Colors.red,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 16,
                     ),
                   ),
                 ),
@@ -80,14 +113,33 @@ class RegisterScreen extends StatelessWidget {
                   height: 20,
                 ),
                 TextFormField(
+                  obscureText: true,
+                  controller: _passwordController,
                   decoration: InputDecoration(
-                    hintText: "Confirma Password",
+                    hintText: "Password",
                     border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        width: 10,
-                        color: Colors.red,
-                      ),
                       borderRadius: BorderRadius.circular(30),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 16,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  obscureText: true,
+                  controller: _confirmPasswordController,
+                  decoration: InputDecoration(
+                    hintText: "Confirm Password",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 16,
                     ),
                   ),
                 ),
@@ -97,7 +149,37 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(
                   width: 250,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_passwordController.text ==
+                          _confirmPasswordController.text) {
+                        _authService
+                            .registerUser(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          name: _nameController.text,
+                        )
+                            .then(
+                          (String? error) {
+                            if (error != null) {
+                              final snackBar = SnackBar(
+                                content: Text(error),
+                                backgroundColor: Colors.red,
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else {
+                              _showMessage(context);
+                            }
+                          },
+                        );
+                      } else {
+                        const snackBar = SnackBar(
+                          content: Text("As senhas não correspondem!"),
+                          backgroundColor: Colors.red,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    },
                     style: const ButtonStyle(
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xFF2D936E)),

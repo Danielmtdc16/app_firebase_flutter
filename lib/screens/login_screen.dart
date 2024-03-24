@@ -37,11 +37,11 @@ class LoginScreen extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: "Email or Phone number",
                     border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        width: 10,
-                        color: Colors.red,
-                      ),
                       borderRadius: BorderRadius.circular(30),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 16,
                     ),
                   ),
                 ),
@@ -53,11 +53,11 @@ class LoginScreen extends StatelessWidget {
                   decoration: InputDecoration(
                       hintText: "Password",
                       border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 10,
-                          color: Colors.red,
-                        ),
                         borderRadius: BorderRadius.circular(30),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 16,
                       ),
                       suffixIcon: const Icon(Icons.visibility_off)),
                 ),
