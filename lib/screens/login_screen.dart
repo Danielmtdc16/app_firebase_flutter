@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -148,7 +146,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       )
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
