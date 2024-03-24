@@ -61,4 +61,27 @@ class AuthService {
 
     return null;
   }
+
+  Future<String?> disconnect() async {
+    try {
+      await _firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    }
+
+    return null;
+  }
+
+  Future<String?> deleteAccount({
+    required String password,
+  }) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(email: _firebaseAuth.currentUser!.email!, password: password);
+      await _firebaseAuth.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    }
+
+    return null;
+  }
 }
