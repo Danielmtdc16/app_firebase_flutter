@@ -8,35 +8,49 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          color: Colors.white,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 60),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "WRK Cursos",
-                    style: TextStyle(color: Colors.black54, fontSize: 40),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 60),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "WRK Cursos",
+                  style: TextStyle(color: Colors.black54, fontSize: 40),
+                ),
+                const SizedBox(
+                  height: 70,
+                ),
+                const Text(
+                  "Login",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black54,
+                    fontSize: 20,
                   ),
-                  const SizedBox(
-                    height: 70,
-                  ),
-                  const Text(
-                    "Login",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black54,
-                      fontSize: 20,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Email or Phone number",
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        width: 10,
+                        color: Colors.red,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: "Email or Phone number",
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      hintText: "Password",
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
                           width: 10,
@@ -44,111 +58,94 @@ class LoginScreen extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        hintText: "Password",
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            width: 10,
-                            color: Colors.red,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        suffixIcon: const Icon(Icons.visibility_off)),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "Forget your Password?",
-                          style: TextStyle(
-                            color: Color(0xFF2D936E),
-                            fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  SizedBox(
-                    width: 250,
-                    child: ElevatedButton(
+                      suffixIcon: const Icon(Icons.visibility_off)),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
                       onPressed: () {},
-                      style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Color(0xFF2D936E)),
-                      ),
                       child: const Text(
-                        "Login",
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        "Forget your Password?",
+                        style: TextStyle(
+                          color: Color(0xFF2D936E),
+                          fontWeight: FontWeight.w400
+                        ),
                       ),
                     ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                SizedBox(
+                  width: 250,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xFF2D936E)),
+                    ),
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  const Text("Or login with"),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: FlutterSocialButton(
-                          onTap: () {},
-                          buttonType: ButtonType.google,
-                          mini: true,
-                        ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                const Text("Or login with"),
+                const SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: FlutterSocialButton(
+                        onTap: () {},
+                        buttonType: ButtonType.google,
+                        mini: true,
                       ),
-                      Expanded(
-                        child: FlutterSocialButton(
-                          onTap: () {},
-                          buttonType: ButtonType.facebook,
-                          mini: true,
-                        ),
+                    ),
+                    Expanded(
+                      child: FlutterSocialButton(
+                        onTap: () {},
+                        buttonType: ButtonType.facebook,
+                        mini: true,
                       ),
-                      Expanded(
-                        child: FlutterSocialButton(
-                          onTap: () {},
-                          buttonType: ButtonType.twitter,
-                          mini: true,
-                        ),
+                    ),
+                    Expanded(
+                      child: FlutterSocialButton(
+                        onTap: () {},
+                        buttonType: ButtonType.twitter,
+                        mini: true,
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Dont't have account?"
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Dont't have account?"
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      "Sign up",
+                      style: TextStyle(
+                        color: Color(0xFF2D936E)
                       ),
-                      SizedBox(width: 10,),
-                      Text(
-                        "Sign up",
-                        style: TextStyle(
-                          color: Color(0xFF2D936E)
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+                    )
+                  ],
+                ),
+              ],
             ),
           ),
         ),
