@@ -1,3 +1,4 @@
+import 'package:app_firebase_flutter/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
 
@@ -71,9 +72,8 @@ class LoginScreen extends StatelessWidget {
                       child: const Text(
                         "Forget your Password?",
                         style: TextStyle(
-                          color: Color(0xFF2D936E),
-                          fontWeight: FontWeight.w400
-                        ),
+                            color: Color(0xFF2D936E),
+                            fontWeight: FontWeight.w400),
                       ),
                     ),
                   ],
@@ -130,17 +130,24 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(
                   height: 25,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Dont't have account?"
+                    const Text("Dont't have account?"),
+                    const SizedBox(
+                      width: 10,
                     ),
-                    SizedBox(width: 10,),
-                    Text(
-                      "Sign up",
-                      style: TextStyle(
-                        color: Color(0xFF2D936E)
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterScreen()),
+                        );
+                      },
+                      child: const Text(
+                        "Sign up",
+                        style: TextStyle(color: Color(0xFF2D936E)),
                       ),
                     )
                   ],
