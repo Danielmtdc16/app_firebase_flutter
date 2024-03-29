@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatefulWidget {
   final User user;
@@ -83,7 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showFormModal();
+        },
         child: const Icon(Icons.add),
       ),
     );
@@ -128,8 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
               TextFormField(
                 controller: dateController,
                 keyboardType: TextInputType.datetime,
-                decoration:
-                    const InputDecoration(hintText: '26/03/2024', labelText: 'Data'),
+                decoration: const InputDecoration(
+                    hintText: '26/03/2024', labelText: 'Data'),
                 inputFormatters: [dateMaskFormatter],
               ),
               const SizedBox(
@@ -169,7 +172,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 16,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Hour hour = Hour(
+                        id: const Uuid().v1(),
+                        date: dateController.text,
+                        minutes:
+                            HourHelper.hoursToMinutes(minutesController.text),
+                      );
+        
+                      if (descriptionController.text != "") {
+                        hour.description = descriptionController.text;
+                      }
+        
+                      if (model != null) {
+                        hour.id = model.id;
+                      }
+        
+                      firestore.collection(widget.user.uid).doc(hour.id).set(hour.toMap(),);
+        
+                      refresh();
+                    },
                     child: Text(confirmationButton),
                   )
                 ],
@@ -182,4 +204,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   remove(Hour model) {}
+
+  void refresh() {}
 }
