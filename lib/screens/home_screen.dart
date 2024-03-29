@@ -1,4 +1,5 @@
 import 'package:app_firebase_flutter/components/menu.dart';
+import 'package:app_firebase_flutter/helpers/hour_helper.dart';
 import 'package:app_firebase_flutter/models/hour.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -71,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               size: 56,
                             ),
                             title: Text(
-                                "Data: ${model.date} hora: ${model.minutes}"),
+                                "Data: ${model.date} hora: ${HourHelper.minutesToHours(model.minutes)}"),
                             subtitle: Text(model.description!),
                           ),
                         ],
@@ -93,18 +94,18 @@ class _HomeScreenState extends State<HomeScreen> {
     String confirmationButton = "Salvar";
     String skipButton = "Cancelar";
 
-    TextEditingController _dateController = TextEditingController();
+    TextEditingController dateController = TextEditingController();
     final dateMaskFormatter = MaskTextInputFormatter(mask: '##/##/####');
-    TextEditingController _minutesController = TextEditingController();
+    TextEditingController minutesController = TextEditingController();
     final minutesMaskFormatter = MaskTextInputFormatter(mask: '##:##');
-    TextEditingController _descriptionController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
 
     if (model != null) {
       title = "Editando";
-      _dateController.text = model.date;
-      _minutesController.text = HourHelper.minutesToHours(model.minutes);
-      if (model.descricao != null) {
-        _descriptionController.text = model.description!;
+      dateController.text = model.date;
+      minutesController.text = HourHelper.minutesToHours(model.minutes);
+      if (model.description != null) {
+        descriptionController.text = model.description!;
       }
     }
 
@@ -117,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) {
         return Container(
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.all(32),
+          padding: const EdgeInsets.all(32),
           child: ListView(
             children: [
               Text(
@@ -125,34 +126,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               TextFormField(
-                controller: _dateController,
+                controller: dateController,
                 keyboardType: TextInputType.datetime,
                 decoration:
-                    InputDecoration(hintText: '26/03/2024', labelText: 'Data'),
+                    const InputDecoration(hintText: '26/03/2024', labelText: 'Data'),
                 inputFormatters: [dateMaskFormatter],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               TextFormField(
-                controller: _minutesController,
+                controller: minutesController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: '00:00', labelText: 'Horas Trabalhadas'),
                 inputFormatters: [minutesMaskFormatter],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               TextFormField(
-                controller: _descriptionController,
+                controller: descriptionController,
                 keyboardType: TextInputType.text,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Lembrete do que você fez',
                   labelText: 'Horas trabalhadas',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               Row(
@@ -164,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: Text(skipButton),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                   ),
                   ElevatedButton(
