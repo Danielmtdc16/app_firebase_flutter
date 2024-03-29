@@ -1,25 +1,34 @@
 import 'package:app_firebase_flutter/components/menu.dart';
+import 'package:app_firebase_flutter/models/hour.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final User user;
+
+  const HomeScreen({super.key, required this.user});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> _listHour = [];
+  List<Hour> listHours = [];
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Horas V3"),
+        title: const Text("Horas V3"),
       ),
-      drawer: Menu(),
-      body: _listHour.isEmpty
+      drawer: Menu(
+        user: widget.user,
+      ),
+      body: listHours.isEmpty
           ? const Center(
               child: Text(
                 "Nada por aqui\nVamos registrar um dia de trabalho?",
@@ -29,10 +38,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             )
-          : Text(""),
+          : ListView(
+              padding: const EdgeInsets.only(left: 4, right: 4),
+              children: List.generate(
+                listHours.length,
+                (index) {
+                  Hour model = listHours[index];
+                  return Dismissible(
+                    key: ValueKey<Hour>(model),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 12),
+                      color: Colors.red,
+                      child: const Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onDismissed: (direction) {
+                      remove(model);
+                    },
+                    child: Card(
+                      elevation: 2,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            onLongPress: () {},
+                            onTap: () {},
+                            leading: const Icon(
+                              Icons.list_alt_rounded,
+                              size: 56,
+                            ),
+                            title: Text(
+                                "Data: ${model.date} hora: ${model.minutes}"),
+                            subtitle: Text(model.description!),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -117,9 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 16,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                        
-                    },
+                    onPressed: () {},
                     child: Text(confirmationButton),
                   )
                 ],
@@ -130,4 +179,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+  remove(Hour model) {}
 }

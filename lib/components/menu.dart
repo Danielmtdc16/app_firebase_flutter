@@ -1,18 +1,22 @@
+import 'package:app_firebase_flutter/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Menu extends StatelessWidget {
-  const Menu({super.key});
+
+  final User user; 
+
+  const Menu({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: const [
+        children: [
           UserAccountsDrawerHeader(
-            accountName: Text("Daniel"),
-            accountEmail: Text("daniel@gmail.com"),
-            currentAccountPicture: CircleAvatar(
+            accountName: Text(user.displayName != null ? user.displayName! : ""),
+            accountEmail: Text(user.email!),
+            currentAccountPicture: const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(
                 Icons.manage_accounts_rounded,
@@ -21,8 +25,9 @@ class Menu extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.logout),
-            title: Text("Sair"),
+            leading: const Icon(Icons.logout),
+            title: const Text("Sair"),
+            onTap: () => AuthService().disconnect(),
           ),
         ],
       ),
