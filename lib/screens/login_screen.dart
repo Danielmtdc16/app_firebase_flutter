@@ -1,9 +1,15 @@
 import 'package:app_firebase_flutter/screens/register_screen.dart';
+import 'package:app_firebase_flutter/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +40,7 @@ class LoginScreen extends StatelessWidget {
                   height: 30,
                 ),
                 TextFormField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     hintText: "Email or Phone number",
                     border: OutlineInputBorder(
@@ -49,6 +56,7 @@ class LoginScreen extends StatelessWidget {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                       hintText: "Password",
@@ -84,7 +92,23 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   width: 250,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _authService
+                          .loginUser(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      )
+                          .then((String? error) {
+                        if (error != null) {
+                          final snackBar = SnackBar(
+                            content: Text(error),
+                            backgroundColor: Colors.red,
+                          );
+
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      });
+                    },
                     style: const ButtonStyle(
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xFF2D936E)),

@@ -3,7 +3,6 @@ import 'package:app_firebase_flutter/helpers/hour_helper.dart';
 import 'package:app_firebase_flutter/models/hour.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:uuid/uuid.dart';
@@ -55,9 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Hour model = listHours[index];
                   return Container(
                     decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(12)),
-                    margin: EdgeInsets.symmetric(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    margin: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 10,
                     ),
@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .collection(widget.user.uid)
                           .doc(hour.id)
                           .set(hour.toMap());
-
+                      Navigator.pop(context);
                       refresh();
                     },
                     child: Text(confirmationButton),

@@ -35,7 +35,7 @@ class ScreenRouter extends StatelessWidget {
           if (snapshot.hasData) {
             return HomeScreen(user: snapshot.data!);
           } 
-          return const LoginScreen();
+          return LoginScreen();
         }
       },
     );
