@@ -16,6 +16,6 @@ class Hour {
     'id': id,
     'date': date,
     'minutes': minutes,
-    'description': description,
+    'description': description ?? '',
   };
 }

@@ -22,6 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
+  void initState() {
+    super.initState();
+
+    refresh();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -46,37 +53,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 listHours.length,
                 (index) {
                   Hour model = listHours[index];
-                  return Dismissible(
-                    key: ValueKey<Hour>(model),
-                    direction: DismissDirection.endToStart,
-                    background: Container(
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.only(right: 12),
-                      color: Colors.red,
-                      child: const Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                      ),
+                  return Container(
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(12)),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 10,
                     ),
-                    onDismissed: (direction) {
-                      remove(model);
-                    },
-                    child: Card(
-                      elevation: 2,
-                      child: Column(
-                        children: [
-                          ListTile(
-                            onLongPress: () {},
-                            onTap: () {},
-                            leading: const Icon(
-                              Icons.list_alt_rounded,
-                              size: 56,
+                    child: Dismissible(
+                      key: ValueKey<Hour>(model),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(12)),
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 12),
+                        margin: EdgeInsets.zero,
+                        child: const Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onDismissed: (direction) {
+                        remove(model);
+                      },
+                      child: Card(
+                        elevation: 2,
+                        margin: EdgeInsets.zero,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              onLongPress: () {},
+                              onTap: () {
+                                showFormModal(model: model);
+                              },
+                              leading: const Icon(
+                                Icons.list_alt_rounded,
+                                size: 56,
+                              ),
+                              title: Text(
+                                  "Data: ${model.date} - Hora: ${HourHelper.minutesToHours(model.minutes)}"),
+                              subtitle: Text(model.description!),
                             ),
-                            title: Text(
-                                "Data: ${model.date} hora: ${HourHelper.minutesToHours(model.minutes)}"),
-                            subtitle: Text(model.description!),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -179,17 +201,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         minutes:
                             HourHelper.hoursToMinutes(minutesController.text),
                       );
-        
+
                       if (descriptionController.text != "") {
                         hour.description = descriptionController.text;
+                      } else {
+                        hour.description = "";
                       }
-        
+
                       if (model != null) {
                         hour.id = model.id;
                       }
-        
-                      firestore.collection(widget.user.uid).doc(hour.id).set(hour.toMap(),);
-        
+
+                      firestore
+                          .collection(widget.user.uid)
+                          .doc(hour.id)
+                          .set(hour.toMap());
+
                       refresh();
                     },
                     child: Text(confirmationButton),
@@ -203,7 +230,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  remove(Hour model) {}
+  remove(Hour model) {
+    firestore.collection(widget.user.uid).doc(model.id).delete();
+    refresh();
+  }
 
-  void refresh() {}
+  void refresh() async {
+    List<Hour> temp = [];
+
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await firestore.collection(widget.user.uid).get();
+
+    for (var doc in snapshot.docs) {
+      temp.add(Hour.fromMap(doc.data()));
+    }
+
+    setState(() {
+      listHours = temp;
+    });
+  }
 }
